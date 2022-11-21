@@ -1,0 +1,23 @@
+<h5>Version Information</h5>
+    <p data-bind="text: settings.plugins.discordbot.sourceversion.title"></p>
+    <div class="row-fluid">
+        <div class="span4 right">Author:</div>
+        <div class="span8"> <a target="_blank" data-bind="text: settings.plugins.discordbot.sourceversion.git_author, attr: { href: settings.plugins.discordbot.sourceversion.git_author_url }"></a></div>
+    </div>
+    <div class="row-fluid">
+        <div class="span4 right">Version:</div>
+        <div class="span8"> <a target="_blank" data-bind="visible: settings.plugins.discordbot.sourceversion.is_release, text: settings.plugins.discordbot.sourceversion.git_tagged_version, attr: { href: settings.plugins.discordbot.sourceversion.release_url }"></a><a target="_blank" data-bind="visible: !settings.plugins.discordbot.sourceversion.is_release, text: settings.plugins.discordbot.sourceversion.git_tagged_version, attr: { href: settings.plugins.discordbot.sourceversion.commit_url }"></a></div>
+    </div>
+    <div class="row-fluid" data-bind="visible: !settings.plugins.discordbot.sourceversion.is_release">
+        <div class="span4 right">Closest Release:</div>
+        <div class="span8"> <a target="_blank" data-bind="text: settings.plugins.discordbot.sourceversion.git_tag, attr: { href: settings.plugins.discordbot.sourceversion.release_url }"></a></div>
+    </div>
+    <div class="row-fluid">
+        <div class="span4 right">Branch:</div>
+        <div class="span8"><span data-bind="text:  settings.plugins.discordbot.sourceversion.git_branch"></span></div>
+    </div>
+    <div class="row-fluid">
+        <div class="span4 right">Build Date:</div>
+        <div class="span8"><span data-bind="text:  settings.plugins.discordbot.sourceversion.build_date"></span></div>
+    </div>
+

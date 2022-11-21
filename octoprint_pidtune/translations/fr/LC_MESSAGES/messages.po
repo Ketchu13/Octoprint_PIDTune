@@ -1,0 +1,186 @@
+# French translations for OctoPrint-Pidtune.
+# Copyright (C) 2022 The OctoPrint Project
+# This file is distributed under the same license as the OctoPrint-Pidtune
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OctoPrint-Pidtune 1.0.0\n"
+"Report-Msgid-Bugs-To: i18n@octoprint.org\n"
+"POT-Creation-Date: 2022-11-20 21:42+0100\n"
+"PO-Revision-Date: 2022-11-20 21:42+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: octoprint_pidtune/static/js/pidtune.js:451
+msgid "s"
+msgstr ""
+
+#: octoprint_pidtune/static/js/pidtune.js:454
+msgid "just now"
+msgstr ""
+
+#: octoprint_pidtune/static/js/pidtune.js:653
+msgid "off"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:29
+msgid "Discord Bot settings"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:31
+msgid ""
+"See the GitHub README.md for how to set up a bot and get the channel ID.\n"
+"                     Allowed users should be a list of discord user ID's."
+"\n"
+"                     If allowed users is blank, all users can use the bot"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:37
+msgid "Bot nickname"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:43
+msgid "Bot avatar URL"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:50
+msgid "Discord Webhook settings"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:52
+msgid "Webhook URL"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_discord.jinja2:58
+msgid "Webhook thumbnails URL"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:2
+msgid "Graph"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:4
+msgid "Graph cutoff"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:10
+msgid "Needs a restart of OctoPrint to become active."
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:13
+msgid "Thermal max temps limitation"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:15
+msgid "Hotend Max Temp"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:21
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:29
+msgid "TODO"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_settings_main.jinja2:23
+msgid "Bed Max Temp"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:6
+msgid "Plugin Configuration"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:9
+msgid "Get current pid"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:12
+msgid "Clear Graph"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:24
+msgid "Selected Heater"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:32
+msgid "Temp Target"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:41
+msgid "Cycles"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:57
+msgid "Start Autotuning"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:62
+msgid "Set Temp. Target"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:65
+msgid "Step"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:69
+msgid "Inc Temp"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:70
+msgid "Dec Temp"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:73
+msgid "Off"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:86
+msgid "Clear MinMax"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:91
+msgid "PID Data"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:144
+msgid "Classic PID"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:145
+msgid "Pessen Integral Rule"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:146
+msgid "Some Overshoot"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:147
+msgid "No Overshoot"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:153
+msgid "Get Current"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:156
+msgid "Apply"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:157
+msgid "Save"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:160
+msgid "Backup"
+msgstr ""
+
+#: octoprint_pidtune/templates/pidtune_tab.jinja2:161
+msgid "Restore"
+msgstr ""
+

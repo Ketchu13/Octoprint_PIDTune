@@ -1,0 +1,21 @@
+<div class="row-fluid">
+    <div class="tabbable">
+        <h4>PIDTune Plugin Settings</h4>
+        <ul class="nav nav-tabs" id="pidtune_settings_tabs">
+            <li class="active"><a data-toggle="tab" href="#pidtune_settings_tab">Settings</a>            </li>
+            <li><a data-toggle="tab" href="#pidtune_discord_tab">Discord</a>            </li>
+            <li><a data-toggle="tab" href="#pidtune_about_tab">About</a>            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="pidtune_settings_tab"       class="tab-pane active">
+                {% include "pidtune_settings_main.jinja2" %}
+            </div>
+            <div id="pidtune_discord_tab"        class="tab-pane">
+                {% include "pidtune_settings_discord.jinja2" %}
+            </div>
+            <div id="pidtune_about_tab"          class="tab-pane">
+                {% include "pidtune_settings_about.jinja2" %}
+            </div>
+        </div>
+    </div>
+</div>

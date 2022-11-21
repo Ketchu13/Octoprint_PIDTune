@@ -1,169 +1,179 @@
 <div class="row-fluid">
-    <div id="pidtune-graph" style="background: url(../static/img/graph-background.png) center no-repeat;"
-         class="pidtune-placeholder"></div>
+    <div id="pidtune-graph" style="background: url(../static/img/graph-background.png) center no-repeat;" class="pidtune-placeholder"></div>
 </div>
-
+<div class="pull-right" style="position: relative;right: -16px;top: -394px;width: 34px;margin-bottom: 2px;">
+    <div class="pull-right" style=" margin-bottom: 2px;">
+       <button class="btn btn-small icon-wrench" style="width: 35px;" data-bind="click: function(){ settingsViewModel.show('#settings_plugin_pidtune'); }" title="{{ _('Plugin Configuration') }}"></button>
+    </div>
+    <div class="pull-right" style=" margin-bottom: 2px;">
+       <button class="btn btn-small icon-camera" style="width: 35px;" data-bind="click: function(){ $root.showDialog() }" title="{{ _('Get current pid') }}"></button>
+    </div>
+    <div class="pull-right" style=" margin-bottom: 2px;">
+       <button class="btn btn-small icon-trash" style="width: 35px;" data-bind="click: function() { $root.resetAdvgraph()}" title="{{ _('Clear Graph') }}"></button>
+    </div>
+</div>
 <div id="hiddenInput" style="display: none;">
     <input type="file" accept=".cfg" id="pidFileBackup" name="pidFileBackup"/>
 </div>
 
 <!-- Setup Panel -->
-<div class="pid-panel" style="display: none;"
-     data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
-    <h1>Setup</h1>
-    <div>
-        <select id="pidtune-selectedController" data-bind="options: tempControllers, value: selectedController"></select>
+<div style="height: 450px;overflow:hidden;" >
+    <div style="display: inline-block;float: left;margin:2px;" data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
+        <h1>Set up</h1>
+        <div style="float: left;">
+            <label class="control-label" for="pidtune-selectedController">{{ _('Selected Heater') }} :</label>
+            <div class="controls">
+                <div>
+                    <select id="pidtune-selectedController" style="text-align:center;width: 92px!important;" data-bind="options: tempControllers, value: _selectedController"></select>
+                </div>
+            </div>
+        </div>
+        <div style="">
+            <label class="control-label" for="auto-target">{{ _('Temp Target') }} :</label>
+            <div class="controls" style="width: 100%;">
+                <div class="input-append">
+                    <input type="text" id="auto-target" class="valueInput" style="text-align:center;width: 54px" data-bind="value : target"/>
+                    <span class="add-on">°C</span>
+                </div>
+            </div>
+        </div>
+        <div style="">
+            <label class="control-label" for="pidtune-selectedController">{{ _('Cycles') }} :</label>
+            <div class="controls">
+                <div >
+                    <input type="text" id="cycle" class="valueInput" style="text-align:center;width: 80px;" data-bind="value : cycles"/>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div>
-        <p>
+    <div style="display: inline-block;float: left;width: 30%; margin:2px 20px 2px 20px;;" >
+        <div data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
+            <h1>Control</h1>
             <h5>
-                Target: <input type="text" id="auto-target" class="valueInput" style="width: 50px" data-bind="value : target"/>
+                State: <span class="text-info" data-bind="text : pidAutoState"></span>
             </h5>
-        </p>
-        <p>
+            <p>
+                <button class="btn btn-block" data-bind="click: function() { $root.autoBtn() }, enable: pidAutoState() != 'Running'">{{ _('Start Autotuning') }}</button>
+            </p>
+        </div>
+        <div data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
+            <p>
+                <button class="btn btn-block" data-bind="click: function() { $root.manualBtn() }">{{ _('Set Temp. Target') }}</button>
+            </p>
+            <div style="vertical-align: middle;display: inline;text-align: center;">
+                <span class="control-label" style="width: 40px;position: relative;top: -5px;">{{ _('Step') }} :</span>
+                <input type="text" id="step-target" class="valueInput" style="width: auto;" data-bind="value : stepSize">
+            </div>
+            <p>
+                <button class="btn" style="width: 48%;float: left; " data-bind="click: function() { $root.incBtn() }">{{ _('Inc Temp') }}</button>
+                <button class="btn" style="width: 48%;float: right;" data-bind="click: function() { $root.decBtn() }">{{ _('Dec Temp') }}</button>
+            </p>
+            <p>
+                <button class="btn btn-block" style="position: relative;top: 10px;" data-bind="click: function() { $root.offBtn() }">{{ _('Off') }}</button>
+            </p>
+        </div>
+        <div data-bind="visible: loginState.isUser()" style="display: table;position: relative;top: 10px;border-bottom: 1px solid #E5E5E5;">
             <h5>
-                Cycles: <input type="text" id="cycle" class="valueInput" style="width: 50px" data-bind="value : cycles"/>
+
+                <input name="logminmaxtemp" data-bind="checked: display_MinMax" style="display: table-cell;margin: 0 4px 0 0;" type="checkbox">
+               <span  style="margin: 0;margin-top: 40px;">Log Min/Max Temps</span>
+
             </h5>
-        </p>
-    </div>
-    <h2>Manual</h2>
-    <div>
-        <p>
             <h5>
-                Step: <input type="text" id="step-target" class="valueInput" style="width: 50px"
-                             data-bind="value : stepSize"/>
+                Min: <span id="tmin" class="text-info" data-bind="text : temps.min() + '°C'">-°C</span>
+                Max: <span id="tmax" class="text-info" data-bind="text : temps.max() + '°C'">-°C</span>
+                <button class="btn btn-small icon-trash" style="float:right;width:35px;position:relative;top:-2px;width:35px;" data-bind="click: function() { $root.resetMinMax()}" title="{{ _('Clear MinMax') }}"></button>
             </h5>
-        </p>
+        </div>
     </div>
-</div>
-<!-- Control Panel -->
-<div class="pid-panel" style="display: none;"
-     data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
-    <h1>Control</h1>
-    <p>
-        <h5>
-            State: <span class="text-info" data-bind="text : pidAutoState"></span>
-        </h5>
-    </p>
-    <p>
-        <button class="btn btn-block" data-bind="click: function() { $root.autoBtn() }, enable: pidAutoState() != 'Running'">Start Autotuning
-        </button>
-    </p>
-    <h2>Manual</h2>
-    <div>
-        <p>
-            <button class="btn btn-block" data-bind="click: function() { $root.manualBtn() }">Set Target</button>
-        </p>
-        <p>
-            <button class="btn" style="width: 48%" data-bind="click: function() { $root.incBtn() }">Inc</button>
-            <button class="btn" style="width: 48%" data-bind="click: function() { $root.decBtn() }">Dec</button>
-        </p>
-        <p>
-            <button class="btn btn-block" data-bind="click: function() { $root.offBtn() }">Off</button>
-        </p>
-    </div>
-</div>
-<!-- PID data Panel -->
-<div class="pid-panel" style="display: table;"
-     data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
-    <h1 style="
-    width: 100%;
-    display: table-caption;
-">PID Data</h1>
-    <div class="" style="display: table-cell;">
-        <p>
+    <div style="display: inline-block;float: left; margin:2px;" >
+        <h1 style="width: 100%; display: table-caption;">{{ _('PID Data') }}</h1>
+        <div class="" style="display: table-cell;">
             <h5>
                 Bias: <span id="bias" class="text-info" data-bind="text : pidData.bias()"></span>
             </h5>
-        </p>
-        <p>
             <h5>
                 Min: <span id="min" class="text-info" data-bind="text : pidData.min() + '&deg;C'"></span>
-
                 Max: <span id="max" class="text-info" data-bind="text : pidData.max() + '&deg;C'"></span>
             </h5>
-        </p>
-        <p>
             <h5>
                 Ku: <span id="ku" class="text-info" data-bind="text : pidData.ku()"></span>
                 Tu: <span id="tu" class="text-info" data-bind="text : pidData.tu()"></span>
             </h5>
-        </p>
-        <div style="display:table;">
-            <div style="display:table-row;">
-                <div style="display:table-cell">
-                    <div style="display:table-cell;width:22px;">Kp:</div>
-                    <div style="display:table-cell;width:20px;">
-                        <input type="text" id="Kp" class="valueInput" name="Kp" style="width: 50px" data-bind="value : pidData.kp">
-                    </div>
-                </div>
-            </div>
-            <div style="display:table-row;">
-                <div style="display:table-cell">
-                    <div style="display:table-cell;width:22px;">Ki:</div>
-                    <div style="display:table-cell;width:20px;">
-                        <input type="text" id="Ki" class="valueInput" name="Ki" style="width: 50px" data-bind="value : pidData.ki">
-                    </div>
-                </div>
-                <div style="display:table-cell">
-                    <div style="display:table-cell;width:22px;padding-left:5px">Ti:</div>
-                    <div style="display:table-cell;width:20px;">
-                        <input type="text" id="Ti" class="valueInput" name="Ti" style="width: 50px" data-bind="value : pidData.ti">
-                    </div>
-                </div>
-            </div>
-            <div style="display:table-row;">
-                <div style="display:table-cell">
-                    <div style="display:table-cell;width:22px;">Kd:</div>
+            <div style="display:table;">
+                <div style="display:table-row;">
                     <div style="display:table-cell">
-                        <input type="text" id="Kd" class="valueInput" name="Kd" style="width: 50px" data-bind="value : pidData.kd">
+                        <div style="display:table-cell;width:22px;">Kp:</div>
+                        <div style="display:table-cell;width:20px;">
+                            <input type="text" id="Kp" class="valueInput" name="Kp" style="text-align:center;width: 50px" data-bind="value : pidData.kp">
+                        </div>
                     </div>
                 </div>
-                <div style="display:table-cell">
-                    <div style="display:table-cell;width:22px;padding-left:5px">Td:</div>
+                <div style="display:table-row;">
                     <div style="display:table-cell">
-                        <input type="text" id="Td" class="valueInput" name="Td" style="width: 50px" data-bind="value : pidData.td">
+                        <div style="display:table-cell;width:22px;">Ki:</div>
+                        <div style="display:table-cell;width:20px;">
+                            <input type="text" id="Ki" class="valueInput" name="Ki" style="text-align:center;width: 50px" data-bind="value : pidData.ki">
+                        </div>
+                    </div>
+                    <div style="display:table-cell">
+                        <div style="display:table-cell;width:22px;padding-left:5px">Ti:</div>
+                        <div style="display:table-cell;width:20px;">
+                            <input type="text" id="Ti" class="valueInput" name="Ti" style="text-align:center;width: 50px" data-bind="value : pidData.ti">
+                        </div>
+                    </div>
+                </div>
+                <div style="display:table-row;">
+                    <div style="display:table-cell">
+                        <div style="display:table-cell;width:22px;">Kd:</div>
+                        <div style="display:table-cell">
+                            <input type="text" id="Kd" class="valueInput" name="Kd" style="text-align:center;width: 50px" data-bind="value : pidData.kd">
+                        </div>
+                    </div>
+                    <div style="display:table-cell">
+                        <div style="display:table-cell;width:22px;padding-left:5px">Td:</div>
+                        <div style="display:table-cell">
+                            <input type="text" id="Td" class="valueInput" name="Td" style="text-align:center;width: 50px" data-bind="value : pidData.td">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <p>
-            <form>
+            <form data-bind="visible: loginState.isUser() && isOperational() && !isPrinting()">
                 <h5>
-                    <input type="radio" name="pid-type" value="cl" data-bind="checked: pidData.model"> Classic PID
-                    <br>
-                    <input type="radio" name="pid-type" value="pe" data-bind="checked: pidData.model"> Pessen Integral Rule
-                    <br>
-                    <input type="radio" name="pid-type" value="so" data-bind="checked: pidData.model"> Some Overshoot
-                    <br>
-                    <input type="radio" name="pid-type" value="no" data-bind="checked: pidData.model"> No Overshoot
-                    <br>
+                    <input type="radio" name="pid-type" value="cl" data-bind="checked: pidData.model"> {{ _('Classic PID') }}<br>
+                    <input type="radio" name="pid-type" value="pe" data-bind="checked: pidData.model"> {{ _('Pessen Integral Rule') }}<br>
+                    <input type="radio" name="pid-type" value="so" data-bind="checked: pidData.model"> {{ _('Some Overshoot') }}<br>
+                    <input type="radio" name="pid-type" value="no" data-bind="checked: pidData.model"> {{ _('No Overshoot') }}<br>
                 </h5>
             </form>
-        </p>
-    </div>
-    <div style="display: table-cell;">
-        <p>
-            <button class="btn btn-block " id="btnCurrent" data-bind="click: function() { $root.currentBtn() }">Get Current</button>
-        </p>
-        <p>
-            <button class="btn"  id="btnApply" style="width: 48%" data-bind="click: function() { $root.applyBtn() }">Apply</button>
-            <button class="btn"  id="btnSave" style="width: 48%" data-bind="click: function() { $root.saveBtn() }">Save</button>
-        </p>
-        <p>
-            <button class="btn" style="width: 48%" id="btnBackup" data-bind="click: function() { $root.backupBtn() }">Backup</button>
-            <button class="btn" style="width: 48%" id="btnRestore" data-bind="click: function() { $root.restoreBtn() }">Restore</button>
-        </p>
+        </div>
+        <div style="width:200px;display: table-cell;">
+            <p>
+                <button class="btn btn-block " id="btnCurrent" data-bind="click: function() { $root.currentBtn() }">{{ _('Get Current') }}</button>
+            </p>
+            <p>
+                <button class="btn"  id="btnApply" style="width: 48%" data-bind="click: function() { $root.applyBtn() }">{{ _('Apply') }}</button>
+                <button class="btn"  id="btnSave" style="width: 48%" data-bind="click: function() { $root.saveBtn() }">{{ _('Save') }}</button>
+            </p>
+            <p>
+                <button class="btn" style="width: 48%" id="btnBackup" data-bind="click: function() { $root.backupBtn() }">{{ _('Backup') }}</button>
+                <button class="btn" style="width: 48%" id="btnRestore" data-bind="click: function() { $root.restoreBtn() }">{{ _('Restore') }}</button>
+            </p>
+        </div>
     </div>
 </div>
-<div class="pull-right" style="position: relative;right: -16px;top: -394px;width: 34px;margin-bottom: 2px;">
-    <div class="pull-right" style=" margin-bottom: 2px;">
-       <button class="btn btn-small icon-wrench" style="width: 35px;" data-bind="click: showPluginConfig" title="{{ _('Plugin Configuration') }}"></button>
+<!-- Modal-Dialog -->
+<div id="sidebar_pidtune-test_simpleDialog" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+        <h3 class="modal-title">This is the Dialog-Title</h3>
     </div>
-    <div class="pull-right" style=" margin-bottom: 2px;">
-       <button class="btn btn-small icon-camera" style="width: 35px;" data-bind="click: function(){ $root.currentBtn() }" title="{{ _('Plugin Configuration') }}"></button>
+    <div class="modal-body">
+        <h4>Dialog-Content</h4>
     </div>
-    <div class="pull-right" style=" margin-bottom: 2px;">
-       <button class="btn btn-small icon-trash" style="width: 35px;" data-bind="click: function() { $root.resetAdvgraph()}" title="{{ _('Clear Graph') }}"></button>
+    <div class="modal-footer">
+        <button class="btn btn-cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-danger btn-confirm">Confirm</button>
     </div>
 </div>
